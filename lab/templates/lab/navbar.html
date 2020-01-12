@@ -1,0 +1,71 @@
+{% load static %}
+{% load tags_extras %}
+{% static "/logo_cemes.png" as logo_cemes%}
+
+{% url activity.short|add:":index" as index_url %}
+{% url activity.short|add:":export" as export_url %}
+{% url activity.short|add:":extract" as index_extract %}
+{% url activity.short|add:":grecord" as index_grecord %}
+{% url activity.short|add:":fextract" as index_extractions %}
+
+<nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light  justify-content-between">
+  <a class="navbar-brand" href="{% url 'lab:index' %}">
+  <img src="{{ logo_cemes }}" alt="Logo" style="width:40px;">
+  </a>
+
+  <ul class="navbar-nav  mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'lab:index' %}">Home</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="{% url 'lab:projects' %}">Projects</a>
+    </li>
+
+
+
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardropact" data-toggle="dropdown">
+        Activities
+      </a>
+      <div class="dropdown-menu">
+        {% for act in all_activity_short %}
+          <a class="dropdown-item" href="{% url act|add:':index' %}">{{all_activity_long|get_at_index:forloop.counter0}}</a>
+        {% endfor %}
+      </div>
+    </li>
+    {% if activity%}
+      {% if activity.short != 'lab'%}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ export_url }}">Export</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ index_grecord }}">New WU</a>
+        </li>
+      {% endif %}
+    {% endif %}
+
+
+  </ul>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url "login" %}">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url "logout" %}">Logout</a>
+    </li>
+        <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Billings
+      </a>
+      <div class="dropdown-menu">
+        <a class="nav-link" href="{% url "lab:extract" %}">Create Bill</a>
+        <a class="nav-link" href="{% url "lab:fextract" %}">Process Bills</a>
+      </div>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link" href="{% url  'admin:index' %}">Admin</a>
+     </li>
+  </ul>
+
+</nav>
