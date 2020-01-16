@@ -60,6 +60,6 @@ class GetRecord(GetRecord):
         if workon is not None:
             project = workon.project
             user = workon.user
-            group = workon.user.group
+            group = workon.group
             ini_dict.update({'workon': workon, 'user': user, 'project': project, 'group': group})
         return self.form_class(initial=ini_dict)

@@ -2,7 +2,7 @@ from pathlib import Path
 from full_cost.utils.constants import ACTIVITIES
 from django.db import models
 from lab.models import Record as LRecord
-from lab.models import Extraction, User, Project
+from lab.models import Extraction, User, Project, Group
 from lab.models import Record4Range, RecordOneDate
 from simple_history.models import HistoricalRecords
 
@@ -22,10 +22,11 @@ class WorkOn(models.Model):
     workon = models.CharField(max_length=200)
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, blank=True, null=True,)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True,)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True,)
     finished = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.workon}'
+        return f'{self.workon} / {self.project} / {self.user} / {self.group}'
 
 class Record(LRecord, RecordOneDate, Record4Range):
     workon = models.ForeignKey(WorkOn, on_delete=models.SET_NULL, blank=True, null=True,)
